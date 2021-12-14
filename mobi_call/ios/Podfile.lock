@@ -1,0 +1,35 @@
+PODS:
+  - Flutter (1.0.0)
+  - jitsi_meet (0.0.1):
+    - Flutter
+    - JitsiMeetSDK (= 3.3.0)
+  - JitsiMeetSDK (3.3.0)
+  - shared_preferences_ios (0.0.1):
+    - Flutter
+
+DEPENDENCIES:
+  - Flutter (from `Flutter`)
+  - jitsi_meet (from `.symlinks/plugins/jitsi_meet/ios`)
+  - shared_preferences_ios (from `.symlinks/plugins/shared_preferences_ios/ios`)
+
+SPEC REPOS:
+  trunk:
+    - JitsiMeetSDK
+
+EXTERNAL SOURCES:
+  Flutter:
+    :path: Flutter
+  jitsi_meet:
+    :path: ".symlinks/plugins/jitsi_meet/ios"
+  shared_preferences_ios:
+    :path: ".symlinks/plugins/shared_preferences_ios/ios"
+
+SPEC CHECKSUMS:
+  Flutter: 50d75fe2f02b26cc09d224853bb45737f8b3214a
+  jitsi_meet: a797e5ffdbc1da9d424c52b1bfe3b2a803b05e31
+  JitsiMeetSDK: 3b1d3757f2166b28cd03f907b47091db064302b3
+  shared_preferences_ios: aef470a42dc4675a1cdd50e3158b42e3d1232b32
+
+PODFILE CHECKSUM: a7ae99ad71c6c60657e7ec9f9469f63e7a0b816d
+
+COCOAPODS: 1.11.2
