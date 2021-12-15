@@ -3,7 +3,7 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import '../config/globals.dart';
 import 'contacts.dart';
-import 'package:jitsi_meet/jitsi_meet.dart';
+import 'package:mobifone_meet/mbf_meet.dart';
 import '../helper/socket_helper.dart';
 
 var socket = Singleton().socket;
@@ -106,7 +106,7 @@ class CallingScreen extends StatelessWidget {
     // Define meetings options here
     // thanh
     call_id = "322612779";
-    var options = JitsiMeetingOptions(room: call_id)
+    var options = MBFMeetingOptions(room: call_id)
       ..serverURL = serverString
       ..token = tokenString
       ..subject = ""
@@ -126,7 +126,7 @@ class CallingScreen extends StatelessWidget {
     debugPrint("JitsiMeetingOptions: $options");
     await MBFMeet.joinMeeting(
       options,
-      listener: JitsiMeetingListener(
+      listener: MBFMeetingListener(
           onConferenceWillJoin: (message) {
             debugPrint("${options.room} will join with message: $message");
           },
@@ -138,7 +138,7 @@ class CallingScreen extends StatelessWidget {
             socket.emit('leave room');
           },
           genericListeners: [
-            JitsiGenericListener(
+            MBFGenericListener(
                 eventName: 'readyToClose',
                 callback: (dynamic message) {
                   debugPrint("readyToClose callback");

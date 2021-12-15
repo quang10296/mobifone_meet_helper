@@ -1,7 +1,10 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.example.mobi_call">
+    package="com.example.mobi_call"
+    xmlns:tools="http://schemas.android.com/tools"
+    >
    <application
-        android:label="mobi_call"
+       tools:replace="android:label"
+       android:label="mobi_call"
         android:icon="@mipmap/ic_launcher">
         <activity
             android:name=".MainActivity"

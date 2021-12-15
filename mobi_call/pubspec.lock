@@ -114,29 +114,6 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "4.0.0"
-  jitsi_meet:
-    dependency: "direct main"
-    description:
-      path: jitsi_meet
-      ref: HEAD
-      resolved-ref: "4e08c1c108175c9e517a8421b91463f1aa16b96d"
-      url: "https://github.com/haonv151168/jitsi_meet.git"
-    source: git
-    version: "4.0.0"
-  jitsi_meet_platform_interface:
-    dependency: transitive
-    description:
-      name: jitsi_meet_platform_interface
-      url: "https://pub.dartlang.org"
-    source: hosted
-    version: "2.0.0"
-  jitsi_meet_web_plugin:
-    dependency: transitive
-    description:
-      name: jitsi_meet_web_plugin
-      url: "https://pub.dartlang.org"
-    source: hosted
-    version: "2.0.0"
   js:
     dependency: transitive
     description:
@@ -172,6 +149,24 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "1.7.0"
+  mobifone_meet:
+    dependency: "direct main"
+    description:
+      path: mobifone_meet
+      ref: develop
+      resolved-ref: "3562da64e1436cffff58cd6c5dff100b54c8ae16"
+      url: "https://github.com/haonv151168/mobifone_meet.git"
+    source: git
+    version: "4.0.0"
+  mobifone_meet_platform_interface:
+    dependency: transitive
+    description:
+      path: mobifone_meet_platform_interface
+      ref: develop
+      resolved-ref: "3562da64e1436cffff58cd6c5dff100b54c8ae16"
+      url: "https://github.com/haonv151168/mobifone_meet.git"
+    source: git
+    version: "2.0.0"
   path:
     dependency: transitive
     description:
