@@ -41,12 +41,12 @@ class MobifoneClient {
 
     socket.onConnect((data) {
       print("onConnect");
-      mobifoneHelperListener?.onConnect();
+      mobifoneHelperListener?.onConnectionConnect();
     });
 
     socket.onDisconnect((data) {
       print("onDisconnect");
-      mobifoneHelperListener?.onError();
+      mobifoneHelperListener?.onConnectionError();
     });
 
     socket.on(Config().SOCKET_EVENT_MISS_CALL, (data) {
