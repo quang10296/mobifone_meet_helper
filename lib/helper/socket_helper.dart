@@ -6,27 +6,24 @@ import 'package:mobi_call/mobifone_helper/mobifone_helper.dart';
 import 'package:mobifone_meet/mbf_meet.dart';
 import '../config/config.dart';
 import '../config/globals.dart';
-import '../screen/calling.dart';
-import '../screen/contacts.dart';
-import '../screen/waiting.dart';
 import 'package:socket_io_client/socket_io_client.dart';
 
 
 
 
-class Singleton {
+class MobifoneClient {
 
   MobifoneHelperListener? mobifoneHelperListener;
   CallListener? callListener;
 
 
-  static final Singleton _singleton = Singleton._internal();
+  static final MobifoneClient _singleton = MobifoneClient._internal();
 
-  factory Singleton() {
+  factory MobifoneClient() {
     return _singleton;
   }
 
-  Singleton._internal();
+  MobifoneClient._internal();
 
   Socket socket = io(
       Config().socketUrl,
@@ -49,9 +46,8 @@ class Singleton {
       mobifoneHelperListener?.onConnectionError();
     });
 
-    socket.on(Config().SOCKET_EVENT_MISS_CALL, (data) {
+    socket.on("MISS", (data) {
       print("MISS");
-      pushToContactScreenFunction(context);
       // Navigator.pop(context);
       callListener?.onSignalingStateChange(Config().EVENT_MISS);
     });
@@ -77,36 +73,26 @@ class Singleton {
           fromUserName = value;
         }
       });
-      pushToCallingScreen(context);
-      // print("NewRoomA $call_id");
       callListener?.onSignalingStateChange(Config().EVENT_RINGING);
     });
 
     socket.on("CancelCall", (data) {
-      pushToContactScreenFunction(context);
       print("CancelCall");
       callListener?.onSignalingStateChange(Config().EVENT_CANCEL);
     });
 
     socket.on("RejectCall", (data) {
       print("RejectCall");
-      pushToContactScreenFunction(context);
-      // Navigator.pop(context);
       callListener?.onSignalingStateChange(Config().EVENT_REJECT);
     });
 
     socket.on("AcceptCall", (data) {
       print("AcceptCall");
-      pushToContactScreenFunction(context);
-      if (!isCall) {
-        joinMeeting();
-      }
-      callListener?.onSignalingStateChange(Config().EVENT_RINGING);
+      callListener?.onSignalingStateChange(Config().EVENT_ACCEPT);
     });
 
     socket.on("CALL_ENDED", (data) {
-
-
+      callListener?.onSignalingStateChange(Config().EVENT_END);
     });
   }
 
@@ -137,7 +123,7 @@ class Singleton {
       featureFlags[FeatureFlagEnum.MEETING_PASSWORD_ENABLED] = false;
       featureFlags[FeatureFlagEnum.PIP_ENABLED] = false;
       featureFlags[FeatureFlagEnum.RAISE_HAND_ENABLED] = false;
-      featureFlags[FeatureFlagEnum.RECORDING_ENABLED] = false;
+      featureFlags[FeatureFlagEnum.RECORDING_ENABLED] = true;
       featureFlags[FeatureFlagEnum.TILE_VIEW_ENABLED] = false;
       featureFlags[FeatureFlagEnum.TOOLBOX_ALWAYS_VISIBLE] = false;
       featureFlags[FeatureFlagEnum.WELCOME_PAGE_ENABLED] = false;
@@ -196,20 +182,6 @@ class Singleton {
   }
 }
 
-pushToCallingScreen(context) {
-  Navigator.push(
-      context, MaterialPageRoute(builder: (context) => CallingScreen()));
-}
-
-pushToWaitingScreen(context) {
-  Navigator.push(
-      context, MaterialPageRoute(builder: (context) => WaitingScreen()));
-}
-
-pushToContactScreenFunction(context) {
-  Navigator.push(
-      context, MaterialPageRoute(builder: (context) => ContactScreen()));
-}
 
 
 
