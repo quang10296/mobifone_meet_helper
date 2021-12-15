@@ -1,7 +1,7 @@
 
 abstract class MobifoneHelperListener {
-  onConnect();
-  onError();
+  onConnectionConnect();
+  onConnectionError();
 
 
 }
