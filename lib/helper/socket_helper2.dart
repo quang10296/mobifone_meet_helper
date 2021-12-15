@@ -40,12 +40,12 @@ class MobifoneClient {
     socket.connect();
 
     socket.onConnect((data) {
-      print("onConnect");
+      print("onConnect in plugin");
       mobifoneHelperListener?.onConnectionConnect();
     });
 
     socket.onDisconnect((data) {
-      print("onDisconnect");
+      print("onDisconnect in plugin");
       mobifoneHelperListener?.onConnectionError();
     });
 
@@ -178,6 +178,7 @@ class MobifoneClient {
     );
   }
   makeCall(String toUserId, String callType,String name) {
+    print("toUserId $toUserId callType $callType name $name");
     socket.emit('NewRoom', {
       "toUserId": toUserId,
       "call_type": callType,
