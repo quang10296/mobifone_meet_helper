@@ -2,7 +2,7 @@ import 'dart:convert';
 import 'dart:io';
 
 import 'package:flutter/material.dart';
-import '../main.dart';
+import 'package:mobi_call/helper/socket_helper.dart';
 import '../model/contact_user_model.dart';
 import '../model/user_model.dart';
 import 'calling.dart';
@@ -53,6 +53,7 @@ class ContactScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     const title = 'Contacts cua Thanh';
     Singleton().connectServer(context);
+
     return MaterialApp(
       title: title,
       home: Scaffold(
@@ -69,11 +70,7 @@ class ContactScreen extends StatelessWidget {
                     title: Text(' ${arrUserContacts[index].displayName} '),
                     onTap: () {
                       print(index);
-                      socket.emit('NewRoom', {
-                        "toUserId": '${arrUserContacts[index].ottUserId}',
-                        "call_type": "video",
-                        "name": "${arrUserContacts[index].displayName}",
-                      });
+                      Singleton().makeCall('${arrUserContacts[index].ottUserId}', "video", "${arrUserContacts[index].displayName}");
                       pushToWaitingScreen(context);
                     }, // Handle your onTap here.
                   );
@@ -83,5 +80,18 @@ class ContactScreen extends StatelessWidget {
       ),
     );
   }
+
+  @override
+  onCallEnd() {
+    // TODO: implement onCallEnd
+   print("123 onCallEnd");
+  }
+
+  @override
+  onConnect() {
+    // TODO: implement onConnect
+    print("123 onConnect");
+  }
+
 }
 
