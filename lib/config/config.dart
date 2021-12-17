@@ -1,7 +1,7 @@
 class Config {
   // only socket
-  var socketUrl = 'https://ott2.mobifone.ai/';
-  var jwt_token = '';
+  static var socketUrl = 'https://ott2.mobifone.ai/';
+  static var jwt_token = '';
 
   var EVENT_MISS = "EVENT_MISS";
   var EVENT_CANCEL = "EVENT_CANCEL";
