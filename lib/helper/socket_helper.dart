@@ -118,7 +118,7 @@ class MobifoneClient {
       featureFlags[FeatureFlagEnum.CALL_INTEGRATION_ENABLED] = false;
       featureFlags[FeatureFlagEnum.CLOSE_CAPTIONS_ENABLED] = false;
       featureFlags[FeatureFlagEnum.INVITE_ENABLED] = false;
-      featureFlags[FeatureFlagEnum.IOS_RECORDING_ENABLED] = false;
+      featureFlags[FeatureFlagEnum.IOS_RECORDING_ENABLED] = true;
       featureFlags[FeatureFlagEnum.MEETING_NAME_ENABLED] = false;
       featureFlags[FeatureFlagEnum.MEETING_PASSWORD_ENABLED] = false;
       featureFlags[FeatureFlagEnum.PIP_ENABLED] = false;
