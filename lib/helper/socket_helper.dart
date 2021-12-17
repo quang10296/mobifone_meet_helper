@@ -131,7 +131,6 @@ class MobifoneClient {
     // Define meetings options here
     // thanh
     isCall = true;
-    call_id = "322612779";
     var options = MBFMeetingOptions(room: call_id)
       ..serverURL = serverString
       ..token = tokenString
