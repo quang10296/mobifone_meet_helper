@@ -26,11 +26,11 @@ class MobifoneClient {
   MobifoneClient._internal();
 
   Socket socket = io(
-      Config().socketUrl,
+      Config.socketUrl,
       OptionBuilder()
           .setTransports(['websocket'])
           .disableAutoConnect()
-          .setQuery({'jwt': Config().jwt_token})
+          .setQuery({'jwt': Config.jwt_token})
           .build());
 
   void connectServer(context) {
