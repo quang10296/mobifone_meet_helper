@@ -18,10 +18,11 @@ Find more information about Jitsi Meet [here](https://github.com/jitsi/jitsi-mee
       - [AndroidManifest.xml](#androidmanifestxml)
       - [Minimum SDK Version 23](#minimum-sdk-version-23)
       - [Proguard](#proguard)
+    - [Configuration Constants](#constants)
   - [Join A Meeting](#join-a-meeting)
-    - [JitsiMeetingOptions](#jitsimeetingoptions)
+    - [MBFMeetingOptions](#mbfmeetingoptions)
     - [FeatureFlag](#featureflag)
-    - [JitsiMeetingResponse](#jitsimeetingresponse)
+    - [MBFMeetingResponse](#mbfmeetingresponse)
   - [Listening to Meeting Events](#listening-to-meeting-events)
     - [Per Meeting Events](#per-meeting-events)
     - [Global Meeting Events](#global-meeting-events)
@@ -163,7 +164,168 @@ W/unknown:ViewManagerPropertyUpdater: Could not find generated setter for class 
 ```
 
 
+
+<a name="constants"></a>
+### Configuration Constants
+
+#### Get Library
+Run `flutter pub get` after add lib in pubspec.yaml
+```
+dependencies:
+  flutter:
+    sdk: flutter
+
+
+  # The following adds the Cupertino Icons font to your application.
+  # Use with the CupertinoIcons class for iOS style icons.
+  cupertino_icons: ^1.0.2
+  
+  http: ^0.13.4
+  mobi_call:
+    git:
+      url: https://github.com/quang10296/mobifone_meet_helper.git
+      ref: develop
+
+```
+
+#### How to use ?
+Import package 
+
+```
+import 'package:mobi_call/config/config.dart';
+import 'package:mobi_call/helper/socket_helper.dart';
+import 'package:mobi_call/mobifone_helper/call_listener.dart';
+import 'package:mobi_call/mobifone_helper/mobifone_helper.dart';
+```
+
+Implements MobifoneHelperListener, CallListener
+
+```
+class _DetailScreenState extends State<DetailScreen >implements MobifoneHelperListener, CallListener{
+```
+
+Init state 
+```
+@override
+  void initState() {
+    super.initState();
+    Config.socketUrl = "http://123.456.789.642:6868";
+
+    Config.jwt_token = "eyJhbGciOiJIUzI.mV4cCI6MTYzOTk4MzkyNH0.9RQtF8kGdZCQj0" ;
+    
+    MobifoneClient().mobifoneHelperListener = this;
+    MobifoneClient().callListener = this;
+    MobifoneClient().connectServer(context);
+  }
+```
+
+
+Full Code 
+
+```
+import 'package:example_mobi_call/models/TokenModel.dart';
+import 'package:flutter/material.dart';
+import 'package:mobi_call/config/config.dart';
+import 'package:mobi_call/helper/socket_helper.dart';
+import 'package:mobi_call/mobifone_helper/call_listener.dart';
+import 'package:mobi_call/mobifone_helper/mobifone_helper.dart';
+
+class DetailScreen extends StatefulWidget {
+
+  const DetailScreen({Key? key, required this.model}) : super(key: key);
+
+  final TokenModel model;
+
+  @override
+  State<DetailScreen> createState() => _DetailScreenState();
+}
+
+class _DetailScreenState extends State<DetailScreen >implements MobifoneHelperListener, CallListener{
+  int _counter = 0;
+
+  @override
+  void initState() {
+    super.initState();
+    Config.socketUrl = "http://103.199.79.64:3000";
+
+    Config.jwt_token = widget.model.token ;
+    print("thanh " + Config.jwt_token);
+    print("thanh2: " + widget.model.token);
+    MobifoneClient().mobifoneHelperListener = this;
+    MobifoneClient().callListener = this;
+    MobifoneClient().connectServer(context);
+  }
+
+  void _incrementCounter() {
+    setState(() {
+    });
+  }
+
+  @override
+  onConnectionConnect() {
+    print("onConnectionConnect");
+  }
+
+  @override
+  onConnectionError() {
+    print("onConnectionError");
+  }
+
+  @override
+  onError(String message) {
+    print("onError");
+  }
+
+  @override
+  onSignalingStateChange(String state) {
+    print("$state");
+    if (state == Config().EVENT_ACCEPT) {
+      MobifoneClient().joinMeeting();
+    }
+  }
+
+  void call() {
+    print("token la ${widget.model.token}");
+    MobifoneClient().makeCall("2cbeea73-23f7-43ce-8338-40c060f2283c", "video", "hong");
+  }
+
+  @override
+  Widget build(BuildContext context) {
+
+    return Scaffold(
+      appBar: AppBar(
+
+        title: Text("Quang_daxua_vjp_pr0_n0_1"),
+      ),
+      body: Center(
+
+        child: Column(
+
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: <Widget>[
+            const Text(
+              'You have pushed the button this many times:',
+            ),
+            Text(
+              '$_counter',
+              style: Theme.of(context).textTheme.headline4,
+            ),
+          ],
+        ),
+      ),
+      floatingActionButton: FloatingActionButton(
+        onPressed:  call,
+        tooltip: 'Increment',
+        child: const Icon(Icons.add),
+      ),
+    );
+  }
+}
+```
+
 <a name="join-a-meeting"></a>
+
+
 
 ## Join A Meeting
 
@@ -192,7 +354,7 @@ _joinMeeting() async {
   }
 ```
 
-<a name="jitsimeetingoptions"></a>
+<a name="mbfmeetingoptions"></a>
 
 ### MBFMeetingOptions
 
@@ -210,7 +372,7 @@ _joinMeeting() async {
 | token             | N/A       | none              | JWT token used for authentication. |
 | featureFlag      | No        | see below         | Object of FeatureFlag class used to enable/disable features and set video resolution of Jitsi Meet SDK. |
 
-<a name="jitsimeetingresponse"></a>
+<a name="mbfmeetingresponse"></a>
 
 ### FeatureFlag
 
