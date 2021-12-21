@@ -12,7 +12,7 @@ class SignalResponModel {
   factory SignalResponModel.fromJson(Map<dynamic, dynamic> json) {
     return SignalResponModel(
       r: json['r'],
-      data: json['data'],
+      data: DataResponModel.fromJson(json['data']),
       error: json['error']
     );
   }
