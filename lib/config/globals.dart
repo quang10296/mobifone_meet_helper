@@ -1,7 +1,9 @@
 //sever video call
-String call_id = "";
-String fromUserName = "";
+String requestId = "";
+String roomId = "";
+String fromUser = "";
+String toUser = "";
+
 String tokenString =
     "";
 String serverString = "https://ott2.mobifone.ai/";
-bool isCall = false;

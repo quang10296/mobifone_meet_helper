@@ -58,17 +58,41 @@ class MobifoneClient {
 
     socket.on("NewCall:Response", (res) {
       var model = SignalResponModel.fromJson(res);
-      if (model.r == '0') {
-        callListener?.onError(model.error);
-      } else {
-        callListener?.onSignalingStateChange(Config.EVENT_RINGING, model);
+      switch (model.r) {
+        case 0:
+          callListener?.onError(model.error);
+          break;
+        case 1:
+          requestId = model.data.request_id;
+
+          callListener?.onSignalingStateChange(Config.EVENT_RINGING, model);
+          break;
+        case 2:
+          requestId = model.data.request_id;
+          roomId = model.data.room_id.toString();
+          fromUser = model.data.from_user.toString();
+          toUser = model.data.to_user.toString();
+
+          callListener?.onSignalingStateChange(Config.EVENT_ACCEPT, model);
+          break;
+        case 3:
+          callListener?.onSignalingStateChange(Config.EVENT_REJECT, model);
+          break;
+        case 4:
+          callListener?.onSignalingStateChange(Config.EVENT_MISS, model);
+          break;
+        case 5:
+          callListener?.onSignalingStateChange(Config.EVENT_CANCEL, model);
+          break;
+        case 6:
+          break;
       }
 
     });
 
     socket.on("CancelCall:Response", (res) {
       var model = SignalResponModel.fromJson(res);
-      if (model.r == '0') {
+      if (model.r == 0) {
         callListener?.onError(model.error);
       } else {
         callListener?.onSignalingStateChange(Config.EVENT_CANCEL, model);
@@ -78,7 +102,7 @@ class MobifoneClient {
 
     socket.on("RejectCall:Response", (res) {
       var model = SignalResponModel.fromJson(res);
-      if (model.r == '0') {
+      if (model.r == 0) {
         callListener?.onError(model.error);
       } else {
         callListener?.onSignalingStateChange(Config.EVENT_REJECT, model);
@@ -88,7 +112,7 @@ class MobifoneClient {
 
     socket.on("AcceptCall:Response", (res) {
       var model = SignalResponModel.fromJson(res);
-      if (model.r == '0') {
+      if (model.r == 0) {
         callListener?.onError(model.error);
       } else {
         callListener?.onSignalingStateChange(Config.EVENT_ACCEPT, model);
@@ -96,9 +120,9 @@ class MobifoneClient {
 
     });
 
-    socket.on("CALL_ENDED", (res) {
+    socket.on("EndCall:Response", (res) {
       var model = SignalResponModel.fromJson(res);
-      if (model.r == '0') {
+      if (model.r == 0) {
         callListener?.onError(model.error);
       } else {
         callListener?.onSignalingStateChange(Config.EVENT_END, model);
@@ -108,7 +132,7 @@ class MobifoneClient {
 
     socket.on("MISS", (res) {
       var model = SignalResponModel.fromJson(res);
-      if (model.r == '0') {
+      if (model.r == 0) {
         callListener?.onError(model.error);
       } else {
         callListener?.onSignalingStateChange(Config.EVENT_MISS, model);
@@ -151,22 +175,21 @@ class MobifoneClient {
     }
     // Define meetings options here
     // thanh
-    isCall = true;
-    var options = MBFMeetingOptions(room: call_id)
+    var options = MBFMeetingOptions(room: roomId)
       ..serverURL = serverString
       ..token = tokenString
       ..subject = ""
-      ..userDisplayName = call_id
+      ..userDisplayName = fromUser
       ..userEmail = ""
       ..iosAppBarRGBAColor = ""
       ..featureFlags.addAll(featureFlags)
       ..webOptions = {
-        "roomName": call_id,
+        "roomName": roomId,
         "width": "100%",
         "height": "100%",
         "enableWelcomePage": false,
         "chromeExtensionBanner": null,
-        "userInfo": {"displayName": call_id}
+        "userInfo": {"displayName": fromUser}
       };
 
     debugPrint("JitsiMeetingOptions: $options");
@@ -192,12 +215,37 @@ class MobifoneClient {
           ]),
     );
   }
+
   makeCall(String? to_hotline_code, dynamic custom_data,String? to_user, String call_type) {
     socket.emit('NewCall', {
       "to_hotline_code": to_hotline_code,
       "custom_data": custom_data,
       "to_user": to_user,
       "call_type": call_type
+    });
+  }
+
+  cancelCall() {
+    socket.emit('CancelCall', {
+      "request_id": requestId
+    });
+  }
+
+  rejectCall() {
+    socket.emit('RejectCall', {
+      "request_id": requestId
+    });
+  }
+
+  endCall() {
+    socket.emit('EndCall', {
+
+    });
+  }
+
+  acceptCall() {
+    socket.emit('AcceptCall', {
+      "request_id": requestId
     });
   }
 }

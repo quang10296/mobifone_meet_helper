@@ -1,5 +1,5 @@
 class SignalResponModel {
-  final String r;
+  final int r;
   final DataResponModel data;
   final String? error;
 
@@ -34,7 +34,7 @@ class DataResponModel {
   final String? from_user_socket;
   final String? to_user_socket;
   final String? to_user;
-  final String? is_hotline;
+  final bool? is_hotline;
 
   DataResponModel({
     required this.request_id,
