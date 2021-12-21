@@ -1,10 +1,10 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
+import 'package:jitsi_meet/jitsi_meet.dart';
 import 'package:mobi_call/mobifone_helper/call_listener.dart';
 import 'package:mobi_call/mobifone_helper/mobifone_helper.dart';
 import 'package:mobi_call/models/SignalResponModel.dart';
-import 'package:mobifone_meet/mbf_meet.dart';
 import '../config/config.dart';
 import '../config/globals.dart';
 import 'package:socket_io_client/socket_io_client.dart';
@@ -175,7 +175,7 @@ class MobifoneClient {
     }
     // Define meetings options here
     // thanh
-    var options = MBFMeetingOptions(room: roomId)
+    var options = JitsiMeetingOptions(room: roomId)
       ..serverURL = serverString
       ..token = tokenString
       ..subject = ""
@@ -193,9 +193,9 @@ class MobifoneClient {
       };
 
     debugPrint("JitsiMeetingOptions: $options");
-    await MBFMeet.joinMeeting(
+    await JitsiMeet.joinMeeting(
       options,
-      listener: MBFMeetingListener(
+      listener: JitsiMeetingListener(
           onConferenceWillJoin: (message) {
             debugPrint("${options.room} will join with message: $message");
           },
@@ -207,7 +207,7 @@ class MobifoneClient {
             socket.emit('leave room');
           },
           genericListeners: [
-            MBFGenericListener(
+            JitsiGenericListener(
                 eventName: 'readyToClose',
                 callback: (dynamic message) {
                   debugPrint("readyToClose callback");
