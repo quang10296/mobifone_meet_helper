@@ -9,7 +9,7 @@ class SignalResponModel {
     this.error
   });
 
-  factory SignalResponModel.fromJson(Map<String, dynamic> json) {
+  factory SignalResponModel.fromJson(Map<dynamic, dynamic> json) {
     return SignalResponModel(
       r: json['r'],
       data: json['data'],
@@ -17,8 +17,8 @@ class SignalResponModel {
     );
   }
 
-  Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
+  Map<dynamic, dynamic> toJson() {
+    final Map<dynamic, dynamic> data = new Map<dynamic, dynamic>();
     data['r'] = this.r;
     data['data'] = this.data;
     data['error'] = this.error;
@@ -46,7 +46,7 @@ class DataResponModel {
     this.to_user
   });
 
-  factory DataResponModel.fromJson(Map<String, dynamic> json) {
+  factory DataResponModel.fromJson(Map<dynamic, dynamic> json) {
     return DataResponModel(
         request_id: json['request_id'],
         room_id: json['room_id'],
@@ -58,8 +58,8 @@ class DataResponModel {
     );
   }
 
-  Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
+  Map<dynamic, dynamic> toJson() {
+    final Map<dynamic, dynamic> data = new Map<dynamic, dynamic>();
     data['request_id'] = this.request_id;
     data['room_id'] = this.room_id;
     data['from_user'] = this.from_user;
