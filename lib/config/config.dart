@@ -3,11 +3,11 @@ class Config {
   static var socketUrl = 'https://ott2.mobifone.ai/';
   static var jwt_token = '';
 
-  var EVENT_MISS = "EVENT_MISS";
-  var EVENT_CANCEL = "EVENT_CANCEL";
-  var EVENT_REJECT = "EVENT_REJECT";
-  var EVENT_ACCEPT = "EVENT_ACCEPT";
-  var EVENT_RINGING = "EVENT_RINGING";
-  var EVENT_CALLING = "EVENT_CALLING";
-  var EVENT_END = "EVENT_END";
+  static const EVENT_MISS = "EVENT_MISS";
+  static const EVENT_CANCEL = "EVENT_CANCEL";
+  static const EVENT_REJECT = "EVENT_REJECT";
+  static const EVENT_ACCEPT = "EVENT_ACCEPT";
+  static const EVENT_RINGING = "EVENT_RINGING";
+  static const EVENT_CALLING = "EVENT_CALLING";
+  static const EVENT_END = "EVENT_END";
 }

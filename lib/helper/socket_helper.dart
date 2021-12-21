@@ -3,13 +3,11 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:mobi_call/mobifone_helper/call_listener.dart';
 import 'package:mobi_call/mobifone_helper/mobifone_helper.dart';
+import 'package:mobi_call/models/SignalResponModel.dart';
 import 'package:mobifone_meet/mbf_meet.dart';
 import '../config/config.dart';
 import '../config/globals.dart';
 import 'package:socket_io_client/socket_io_client.dart';
-
-
-
 
 class MobifoneClient {
 
@@ -46,53 +44,76 @@ class MobifoneClient {
       mobifoneHelperListener?.onConnectionError();
     });
 
-    socket.on("MISS", (data) {
-      print("MISS");
-      // Navigator.pop(context);
-      callListener?.onSignalingStateChange(Config().EVENT_MISS);
+    // socket.on("NewCall:Response", (data) {
+    //   data.forEach((key, value) {
+    //     if (key == "call_id") {
+    //       call_id = value;
+    //     }
+    //     if (key == "fromUserName") {
+    //       fromUserName = value;
+    //     }
+    //   });
+    //   callListener?.onSignalingStateChange(Config().EVENT_CALLING);
+    // });
+
+    socket.on("NewCall:Response", (res) {
+      var model = SignalResponModel.fromJson(res);
+      if (model.r == '0') {
+        callListener?.onError(model.error);
+      } else {
+        callListener?.onSignalingStateChange(Config.EVENT_RINGING, model);
+      }
+
     });
 
-    socket.on("NewRoomA", (data) {
-      data.forEach((key, value) {
-        if (key == "call_id") {
-          call_id = value;
-        }
-        if (key == "fromUserName") {
-          fromUserName = value;
-        }
-      });
-      callListener?.onSignalingStateChange(Config().EVENT_CALLING);
+    socket.on("CancelCall:Response", (res) {
+      var model = SignalResponModel.fromJson(res);
+      if (model.r == '0') {
+        callListener?.onError(model.error);
+      } else {
+        callListener?.onSignalingStateChange(Config.EVENT_CANCEL, model);
+      }
+
     });
 
-    socket.on("NewRoomB", (data) {
-      data.forEach((key, value) {
-        if (key == "call_id") {
-          call_id = value;
-        }
-        if (key == "fromUserName") {
-          fromUserName = value;
-        }
-      });
-      callListener?.onSignalingStateChange(Config().EVENT_RINGING);
+    socket.on("RejectCall:Response", (res) {
+      var model = SignalResponModel.fromJson(res);
+      if (model.r == '0') {
+        callListener?.onError(model.error);
+      } else {
+        callListener?.onSignalingStateChange(Config.EVENT_REJECT, model);
+      }
+
     });
 
-    socket.on("CancelCall", (data) {
-      print("CancelCall");
-      callListener?.onSignalingStateChange(Config().EVENT_CANCEL);
+    socket.on("AcceptCall:Response", (res) {
+      var model = SignalResponModel.fromJson(res);
+      if (model.r == '0') {
+        callListener?.onError(model.error);
+      } else {
+        callListener?.onSignalingStateChange(Config.EVENT_ACCEPT, model);
+      }
+
     });
 
-    socket.on("RejectCall", (data) {
-      print("RejectCall");
-      callListener?.onSignalingStateChange(Config().EVENT_REJECT);
+    socket.on("CALL_ENDED", (res) {
+      var model = SignalResponModel.fromJson(res);
+      if (model.r == '0') {
+        callListener?.onError(model.error);
+      } else {
+        callListener?.onSignalingStateChange(Config.EVENT_END, model);
+      }
+
     });
 
-    socket.on("AcceptCall", (data) {
-      print("AcceptCall");
-      callListener?.onSignalingStateChange(Config().EVENT_ACCEPT);
-    });
+    socket.on("MISS", (res) {
+      var model = SignalResponModel.fromJson(res);
+      if (model.r == '0') {
+        callListener?.onError(model.error);
+      } else {
+        callListener?.onSignalingStateChange(Config.EVENT_MISS, model);
+      }
 
-    socket.on("CALL_ENDED", (data) {
-      callListener?.onSignalingStateChange(Config().EVENT_END);
     });
   }
 
@@ -171,12 +192,12 @@ class MobifoneClient {
           ]),
     );
   }
-  makeCall(String toUserId, String callType,String name) {
-    print("toUserId $toUserId callType $callType name $name");
-    socket.emit('NewRoom', {
-      "toUserId": toUserId,
-      "call_type": callType,
-      "name": name,
+  makeCall(String? to_hotline_code, dynamic custom_data,String? to_user, String call_type) {
+    socket.emit('NewCall', {
+      "to_hotline_code": to_hotline_code,
+      "custom_data": custom_data,
+      "to_user": to_user,
+      "call_type": call_type
     });
   }
 }
