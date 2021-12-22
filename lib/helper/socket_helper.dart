@@ -85,6 +85,9 @@ class MobifoneClient {
           callListener?.onSignalingStateChange(Config.EVENT_CANCEL, model);
           break;
         case 6:
+          requestId = model.data.request_id;
+
+          callListener?.onSignalingStateChange(Config.EVENT_CALLING, model);
           break;
       }
 
