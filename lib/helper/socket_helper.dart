@@ -208,7 +208,7 @@ class MobifoneClient {
           },
           onConferenceTerminated: (message) {
             debugPrint("${options.room} terminated with message: $message");
-            socket.emit('leave room');
+            endCall();
           },
           genericListeners: [
             JitsiGenericListener(
