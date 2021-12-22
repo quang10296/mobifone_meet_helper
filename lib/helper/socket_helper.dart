@@ -224,6 +224,10 @@ class MobifoneClient {
     );
   }
 
+  closeMeeting() {
+    JitsiMeet.closeMeeting();
+  }
+
   makeCall(String? to_hotline_code, dynamic custom_data,String? to_user, String call_type) {
     socket.emit('NewCall', {
       "to_hotline_code": to_hotline_code,
