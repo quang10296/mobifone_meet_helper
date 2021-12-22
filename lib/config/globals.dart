@@ -6,4 +6,4 @@ String toUser = "";
 
 String tokenString =
     "";
-String serverString = "https://ott2.mobifone.ai:8443/";
+String serverString = "https://ott.mobifone.ai:8443/";
