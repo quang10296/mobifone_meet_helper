@@ -63,9 +63,12 @@ class MobifoneClient {
           callListener?.onError(model.error);
           break;
         case 1:
-          requestId = model.data.request_id;
-
-          callListener?.onSignalingStateChange(Config.EVENT_RINGING, model);
+          if (requestId == model.data.request_id) {
+            callListener?.onSignalingStateChange(Config.EVENT_CALLING, model);
+          } else {
+            requestId = model.data.request_id;
+            callListener?.onSignalingStateChange(Config.EVENT_RINGING, model);
+          }
           break;
         case 2:
           requestId = model.data.request_id;
@@ -86,8 +89,6 @@ class MobifoneClient {
           break;
         case 6:
           requestId = model.data.request_id;
-
-          callListener?.onSignalingStateChange(Config.EVENT_CALLING, model);
           break;
       }
 
