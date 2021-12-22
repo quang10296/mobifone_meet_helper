@@ -35,6 +35,7 @@ class DataResponModel {
   final String? to_user_socket;
   final String? to_user;
   final bool? is_hotline;
+  final String? to_hotline;
 
   DataResponModel({
     required this.request_id,
@@ -43,7 +44,8 @@ class DataResponModel {
     this.from_user_socket,
     this.to_user_socket,
     this.is_hotline,
-    this.to_user
+    this.to_user,
+    this.to_hotline
   });
 
   factory DataResponModel.fromJson(Map<dynamic, dynamic> json) {
@@ -54,7 +56,8 @@ class DataResponModel {
         to_user: json['to_user'],
         from_user_socket: json['from_user_socket'],
         to_user_socket: json['to_user_socket'],
-        is_hotline: json['is_hotline']
+        is_hotline: json['is_hotline'],
+        to_hotline: json['to_hotline']
     );
   }
 
@@ -67,6 +70,7 @@ class DataResponModel {
     data['from_user_socket'] = this.from_user_socket;
     data['to_user_socket'] = this.to_user_socket;
     data['is_hotline'] = this.is_hotline;
+    data['to_hotline'] = this.to_hotline;
     return data;
   }
 }
