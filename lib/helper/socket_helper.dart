@@ -94,35 +94,35 @@ class MobifoneClient {
 
     });
 
-    socket.on("CancelCall:Response", (res) {
-      var model = SignalResponModel.fromJson(res);
-      if (model.r == 0) {
-        callListener?.onError(model.error);
-      } else {
-        callListener?.onSignalingStateChange(Config.EVENT_CANCEL, model);
-      }
-
-    });
-
-    socket.on("RejectCall:Response", (res) {
-      var model = SignalResponModel.fromJson(res);
-      if (model.r == 0) {
-        callListener?.onError(model.error);
-      } else {
-        callListener?.onSignalingStateChange(Config.EVENT_REJECT, model);
-      }
-
-    });
-
-    socket.on("AcceptCall:Response", (res) {
-      var model = SignalResponModel.fromJson(res);
-      if (model.r == 0) {
-        callListener?.onError(model.error);
-      } else {
-        callListener?.onSignalingStateChange(Config.EVENT_ACCEPT, model);
-      }
-
-    });
+    // socket.on("CancelCall:Response", (res) {
+    //   var model = SignalResponModel.fromJson(res);
+    //   if (model.r == 0) {
+    //     callListener?.onError(model.error);
+    //   } else {
+    //     callListener?.onSignalingStateChange(Config.EVENT_CANCEL, model);
+    //   }
+    //
+    // });
+    //
+    // socket.on("RejectCall:Response", (res) {
+    //   var model = SignalResponModel.fromJson(res);
+    //   if (model.r == 0) {
+    //     callListener?.onError(model.error);
+    //   } else {
+    //     callListener?.onSignalingStateChange(Config.EVENT_REJECT, model);
+    //   }
+    //
+    // });
+    //
+    // socket.on("AcceptCall:Response", (res) {
+    //   var model = SignalResponModel.fromJson(res);
+    //   if (model.r == 0) {
+    //     callListener?.onError(model.error);
+    //   } else {
+    //     callListener?.onSignalingStateChange(Config.EVENT_ACCEPT, model);
+    //   }
+    //
+    // });
 
     socket.on("EndCall:Response", (res) {
       var model = SignalResponModel.fromJson(res);
@@ -134,15 +134,15 @@ class MobifoneClient {
 
     });
 
-    socket.on("MISS", (res) {
-      var model = SignalResponModel.fromJson(res);
-      if (model.r == 0) {
-        callListener?.onError(model.error);
-      } else {
-        callListener?.onSignalingStateChange(Config.EVENT_MISS, model);
-      }
-
-    });
+    // socket.on("MISS", (res) {
+    //   var model = SignalResponModel.fromJson(res);
+    //   if (model.r == 0) {
+    //     callListener?.onError(model.error);
+    //   } else {
+    //     callListener?.onSignalingStateChange(Config.EVENT_MISS, model);
+    //   }
+    //
+    // });
   }
 
   joinMeeting() async {
