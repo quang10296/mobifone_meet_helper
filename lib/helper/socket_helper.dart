@@ -63,16 +63,16 @@ class MobifoneClient {
           callListener?.onError(model.error);
           break;
         case 1:
+          fromUser = model.data.from_user.toString();
+          toUser = model.data.to_user.toString();
+          toHotline = model.data.to_hotline.toString();
+
           if (requestId == model.data.request_id) {
             callListener?.onSignalingStateChange(Config.EVENT_CALLING, model);
           } else {
             requestId = model.data.request_id;
             callListener?.onSignalingStateChange(Config.EVENT_RINGING, model);
           }
-
-          fromUser = model.data.from_user.toString();
-          toUser = model.data.to_user.toString();
-          toHotline = model.data.to_hotline.toString();
           break;
         case 2:
           requestId = model.data.request_id;
