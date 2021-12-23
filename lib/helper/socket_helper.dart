@@ -138,6 +138,12 @@ class MobifoneClient {
 
     });
 
+    socket.on("CallEnded", (res) {
+      callListener?.onSignalingStateChange(Config.EVENT_END, null);
+    });
+
+
+
     // socket.on("MISS", (res) {
     //   var model = SignalResponModel.fromJson(res);
     //   if (model.r == 0) {
