@@ -212,7 +212,6 @@ class MobifoneClient {
           },
           onConferenceTerminated: (message) {
             debugPrint("${options.room} terminated with message: $message");
-            endCall();
           },
           genericListeners: [
             JitsiGenericListener(
@@ -225,6 +224,7 @@ class MobifoneClient {
   }
 
   closeMeeting() {
+    endCall();
     JitsiMeet.closeMeeting();
   }
 
