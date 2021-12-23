@@ -10,4 +10,5 @@ class Config {
   static const EVENT_RINGING = "EVENT_RINGING";
   static const EVENT_CALLING = "EVENT_CALLING";
   static const EVENT_END = "EVENT_END";
+  static const EVENT_TERMINATED = "EVENT_TERMINATED";
 }

@@ -128,15 +128,15 @@ class MobifoneClient {
     //
     // });
 
-    socket.on("EndCall:Response", (res) {
-      var model = SignalResponModel.fromJson(res);
-      if (model.r == 0) {
-        callListener?.onError(model.error);
-      } else {
-        callListener?.onSignalingStateChange(Config.EVENT_END, model);
-      }
-
-    });
+    // socket.on("EndCall:Response", (res) {
+    //   var model = SignalResponModel.fromJson(res);
+    //   if (model.r == 0) {
+    //     callListener?.onError(model.error);
+    //   } else {
+    //     callListener?.onSignalingStateChange(Config.EVENT_END, model);
+    //   }
+    //
+    // });
 
     socket.on("CallEnded", (res) {
       callListener?.onSignalingStateChange(Config.EVENT_END, null);
@@ -219,6 +219,7 @@ class MobifoneClient {
           onConferenceTerminated: (message) {
             endCall();
             debugPrint("${options.room} terminated with message: $message");
+            callListener?.onSignalingStateChange(Config.EVENT_TERMINATED, null);
           },
           genericListeners: [
             JitsiGenericListener(
