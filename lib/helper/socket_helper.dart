@@ -63,22 +63,22 @@ class MobifoneClient {
           callListener?.onError(model.error);
           break;
         case 1:
-          fromUser = model.data.from_user.toString();
-          toUser = model.data.to_user.toString();
-          toHotline = model.data.to_hotline.toString();
+          MeetingInfo.fromUser = model.data.from_user.toString();
+          MeetingInfo.toUser = model.data.to_user.toString();
+          MeetingInfo.toHotline = model.data.to_hotline.toString();
 
-          if (requestId == model.data.request_id) {
+          if (MeetingInfo.requestId == model.data.request_id) {
             callListener?.onSignalingStateChange(Config.EVENT_CALLING, model);
           } else {
-            requestId = model.data.request_id;
+            MeetingInfo.requestId = model.data.request_id;
             callListener?.onSignalingStateChange(Config.EVENT_RINGING, model);
           }
           break;
         case 2:
-          requestId = model.data.request_id;
-          roomId = model.data.room_id.toString();
-          fromUser = model.data.from_user.toString();
-          toUser = model.data.to_user.toString();
+          MeetingInfo.requestId = model.data.request_id;
+          MeetingInfo.roomId = model.data.room_id.toString();
+          MeetingInfo.fromUser = model.data.from_user.toString();
+          MeetingInfo.toUser = model.data.to_user.toString();
 
           callListener?.onSignalingStateChange(Config.EVENT_ACCEPT, model);
           break;
@@ -92,7 +92,7 @@ class MobifoneClient {
           callListener?.onSignalingStateChange(Config.EVENT_CANCEL, model);
           break;
         case 6:
-          requestId = model.data.request_id;
+          MeetingInfo.requestId = model.data.request_id;
           break;
       }
 
@@ -189,21 +189,21 @@ class MobifoneClient {
     }
     // Define meetings options here
     // thanh
-    var options = JitsiMeetingOptions(room: roomId)
-      ..serverURL = serverString
-      ..token = tokenString
+    var options = JitsiMeetingOptions(room: MeetingInfo.roomId)
+      ..serverURL = MeetingInfo.serverString
+      ..token = MeetingInfo.tokenString
       ..subject = ""
-      ..userDisplayName = fromUser
+      ..userDisplayName = MeetingInfo.fromUser
       ..userEmail = ""
       ..iosAppBarRGBAColor = ""
       ..featureFlags.addAll(featureFlags)
       ..webOptions = {
-        "roomName": roomId,
+        "roomName": MeetingInfo.roomId,
         "width": "100%",
         "height": "100%",
         "enableWelcomePage": false,
         "chromeExtensionBanner": null,
-        "userInfo": {"displayName": fromUser}
+        "userInfo": {"displayName": MeetingInfo.fromUser}
       };
 
     debugPrint("JitsiMeetingOptions: $options");
@@ -246,13 +246,13 @@ class MobifoneClient {
 
   cancelCall() {
     socket.emit('CancelCall', {
-      "request_id": requestId
+      "request_id": MeetingInfo.requestId
     });
   }
 
   rejectCall() {
     socket.emit('RejectCall', {
-      "request_id": requestId
+      "request_id": MeetingInfo.requestId
     });
   }
 
@@ -264,7 +264,7 @@ class MobifoneClient {
 
   acceptCall() {
     socket.emit('AcceptCall', {
-      "request_id": requestId
+      "request_id": MeetingInfo.requestId
     });
   }
 }

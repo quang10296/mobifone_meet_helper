@@ -1,10 +1,11 @@
 //sever video call
-String requestId = "";
-String roomId = "";
-String fromUser = "";
-String toUser = "";
-String toHotline = "";
+class MeetingInfo {
+  static String requestId = "";
+  static String roomId = "";
+  static String fromUser = "";
+  static String toUser = "";
+  static String toHotline = "";
 
-String tokenString =
-    "";
-String serverString = "https://ott.mobifone.ai:8443/";
+  static String tokenString = "";
+  static String serverString = "https://ott.mobifone.ai:8443/";
+}
