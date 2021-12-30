@@ -155,6 +155,10 @@ class MobifoneClient {
     // });
   }
 
+  bool isConnected() {
+    return socket.connected;
+  }
+
   joinMeeting() async {
     // Enable or disable any feature flag here
     // If feature flag are not provided, default values will be used
